@@ -1,12 +1,12 @@
-import hashlib
 import datetime
+import hashlib
 
 class Block:
-    data=None
-    next=None
-    hash=None
-    blockNo=0
-    nonce=0
+    blockNo = 0
+    data = None
+    next = None
+    hash = None
+    nonce = 0
     previous_hash = 0x0
     timestamp = datetime.datetime.now()
 
@@ -14,22 +14,22 @@ class Block:
         self.data = data
 
     def hash(self):
-        h = hashlib.sha256
+        h = hashlib.sha256()
         h.update(
-            str(self.nonce).encode('utf-8') +
-            str(self.data).encode('utf-8') +
-            str(self.previous_hash).encode('utf-8') +
-            str(self.timestamp).encode('utf-8') +
-            str(self.blockNo).encode('utf-8')
+        str(self.nonce).encode('utf-8') +
+        str(self.data).encode('utf-8') +
+        str(self.previous_hash).encode('utf-8') +
+        str(self.timestamp).encode('utf-8') +
+        str(self.blockNo).encode('utf-8')
         )
         return h.hexdigest()
 
     def __str__(self):
-        return "Block Hash: " + str(self.hash()) + "\nBlockNo: " + str(self.blockNo) + "\nBlock Data: " + str(self.data) + "\nHashes: " + str(self.nonce)
+        return "Block Hash: " + str(self.hash()) + "\nBlockNo: " + str(self.blockNo) + "\nBlock Data: " + str(self.data) + "\nHashes: " + str(self.nonce) + "\n----"
 
-class blockChain:
+class Blockchain:
 
-    diff = 0
+    diff = 3
     maxNonce = 2**32
     target = 2 ** (256-diff)
 
@@ -53,7 +53,7 @@ class blockChain:
             else:
                 block.nonce += 1
 
-blockchain = blockChain()
+blockchain = Blockchain()
 
 for n in range(10):
     blockchain.mine(Block("Block " + str(n+1)))
